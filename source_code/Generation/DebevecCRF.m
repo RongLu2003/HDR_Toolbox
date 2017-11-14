@@ -1,4 +1,4 @@
-function [lin_fun, max_lin_fun] = DebevecCRF(stack, stack_exposure, nSamples, sampling_strategy, smoothing_term, bNormalize)
+function [lin_fun, max_lin_fun, lE, stack_samples] = DebevecCRF(stack, stack_exposure, nSamples, sampling_strategy, smoothing_term, bNormalize)
 %
 %       [lin_fun, max_lin_fun] = DebevecCRF(stack, stack_exposure, nSamples, sampling_strategy, smoothing_term, bNormalize)
 %
@@ -66,7 +66,7 @@ if(~exist('smoothing_term', 'var'))
 end
 
 if(~exist('bNormalize', 'var'))
-    bNormalize = 1;
+    bNormalize = 0;
 end
 
 if(size(stack, 4) ~= length(stack_exposure))
@@ -91,28 +91,37 @@ stack_samples = LDRStackSubSampling(stack, stack_exposure, nSamples, sampling_st
 
 %recovering the CRF
 lin_fun = zeros(256, col);
+lE = zeros(size(stack_samples,1), col);
 log_stack_exposure = log(stack_exposure);
 
 max_lin_fun = zeros(1, col);
 
 for i=1:col
-    g = gsolve(stack_samples(:,:,i), log_stack_exposure, smoothing_term, W);
+    [g,lE_] = gsolve(stack_samples(:,:,i), log_stack_exposure, smoothing_term, W);
     g = exp(g);
     
     lin_fun(:,i) = g;
+    lE(:,i) = lE_;
 end
 
 %color correction
 gray = zeros(1,3);
+gray2 = zeros(1,3);
 for i=1:col
     gray(i) = lin_fun(128, i);
+    
+    gray2(i) = lE(128, i);
 end
 
 scale = FindChromaticyScale([0.5, 0.5, 0.5], gray);
 
+scale2 = FindChromaticyScale([0.5, 0.5, 0.5], gray2);
+
 for i=1:col
     lin_fun(:,i) = scale(i) * lin_fun(:,i);
     max_lin_fun(i) = max(g);
+    
+%      lE(:,i) = scale2(i) * lE(:,i);
 end
 
 if(bNormalize)

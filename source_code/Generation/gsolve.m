@@ -1,4 +1,4 @@
-function g = gsolve(Z,B,l,w)
+function [g,lE] = gsolve(Z,B,l,w)
 %
 %       g = gsolve(Z,B,l,w)
 %
@@ -48,5 +48,7 @@ end
 %[x, ~] = linsolve(A, b);
 x = A \ b;
 g = x(1:n);
+
+lE = x(n+1:size(x,1));
 
 end
