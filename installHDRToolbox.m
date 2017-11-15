@@ -56,7 +56,7 @@ for i=1:length(folder)
     addpath([pwd(), '/source_code/', char(folder(i))], '-begin');
 end
 
-addpath([pwd(), '/demos/'], '-begin');
+% addpath([pwd(), '/demos/'], '-begin');
 
 savepath
 
@@ -64,9 +64,9 @@ clear('folder');
 
 disp('done!');
 
-disp(' ');
-disp('Check demos in the folder ''demos'' for learning how to use the HDR Toolbox!');
-disp(' ');
+% disp(' ');
+% disp('Check demos in the folder ''demos'' for learning how to use the HDR Toolbox!');
+% disp(' ');
 disp('If you use the toolbox in your research, please reference the book in your papers:');
 disp('@book{Banterle:2011,');
 disp('      author = {Banterle, Francesco and Artusi, Alessandro and Debattista, Kurt and Chalmers, Alan},');
