@@ -211,8 +211,8 @@ if(~isempty(totWeight <= saturation))
     mask = max(mask, [], 3);
     
     if(max(mask(:)) > 0.5)
-        disp('WARNING: the stack has saturated pixels!');
         if(exist('debug_mode', 'var'))
+            disp('WARNING: the stack has saturated pixels!');
             imwrite(mask, 'mask_sat.bmp');
         end
 
@@ -233,8 +233,8 @@ if(~isempty(totWeight <= saturation))
     mask = max(mask, [], 3);
     
     if(max(mask(:)) > 0.5)
-        disp('WARNING: the stack has noisy dark pixels!');        
         if(exist('debug_mode', 'var'))
+            disp('WARNING: the stack has noisy dark pixels!');
             imwrite(mask, 'mask_noisy.bmp');
         end
 

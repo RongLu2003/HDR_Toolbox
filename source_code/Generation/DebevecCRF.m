@@ -106,16 +106,16 @@ end
 
 %color correction
 gray = zeros(1,3);
-gray2 = zeros(1,3);
+% gray2 = zeros(1,3);
 for i=1:col
     gray(i) = lin_fun(128, i);
     
-    gray2(i) = lE(128, i);
+%     gray2(i) = lE(128, i);
 end
 
 scale = FindChromaticyScale([0.5, 0.5, 0.5], gray);
 
-scale2 = FindChromaticyScale([0.5, 0.5, 0.5], gray2);
+% scale2 = FindChromaticyScale([0.5, 0.5, 0.5], gray2);
 
 for i=1:col
     lin_fun(:,i) = scale(i) * lin_fun(:,i);
